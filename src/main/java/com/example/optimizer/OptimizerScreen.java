@@ -5,6 +5,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.ParticleStatus; // Правильный класс
 
 public class OptimizerScreen extends Screen {
     public OptimizerScreen() {
@@ -20,7 +21,8 @@ public class OptimizerScreen extends Screen {
         }).dimensions(this.width / 2 - 100, this.height / 2 - 60, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Частицы: Выкл"), button -> {
-            client.options.getParticles().setValue(net.minecraft.client.option.ParticlesMode.MINIMAL);
+            // Используем ParticleStatus.MINIMAL
+            client.options.getParticles().setValue(ParticleStatus.MINIMAL); 
         }).dimensions(this.width / 2 - 100, this.height / 2 - 30, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Графика: Быстрая"), button -> {
