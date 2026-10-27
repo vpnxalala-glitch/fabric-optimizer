@@ -10,58 +10,32 @@ import com.example.optimizer.OptimizerMod;
 import com.example.optimizer.features.FullbrightFeature;
 
 public class OptimizerScreen extends Screen {
-    private int currentTab = 0; // 0 - Графика, 1 - Оптимизация
-
     public OptimizerScreen() {
-        super(Text.literal("Оптимизатор Майнкрафта"));
+        super(Text.literal("Максимальный Оптимизатор"));
     }
 
     @Override
     protected void init() {
         MinecraftClient client = MinecraftClient.getInstance();
         this.clearChildren();
+        int startY = this.height / 2 - 40;
 
-        int startY = this.height / 2 - 60;
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Фуллбрайт"), b -> {
+            FullbrightFeature.toggle();
+            b.setMessage(Text.literal(OptimizerMod.config.fullbrightEnabled ? "Фуллбрайт: ВКЛ" : "Фуллбрайт: ВЫКЛ"));
+        }).dimensions(this.width / 2 - 100, startY, 200, 20).build());
 
-        // Вкладки
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Графика"), b -> { currentTab = 0; this.init(); })
-            .dimensions(this.width / 2 - 150, startY - 30, 100, 20).build());
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Оптимизация"), b -> { currentTab = 1; this.init(); })
-            .dimensions(this.width / 2 + 50, startY - 30, 100, 20).build());
-
-        if (currentTab == 0) {
-            // Вкладка Графика
-            String fbText = OptimizerMod.config.fullbrightEnabled ? "Фуллбрайт: ВКЛ" : "Фуллбрайт: ВЫКЛ";
-            this.addDrawableChild(ButtonWidget.builder(Text.literal(fbText), b -> {
-                FullbrightFeature.toggle();
-                b.setMessage(Text.literal(OptimizerMod.config.fullbrightEnabled ? "Фуллбрайт: ВКЛ" : "Фуллбрайт: ВЫКЛ"));
-            }).dimensions(this.width / 2 - 100, startY, 200, 20).build());
-
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Дальность: 6 чанков"), b -> {
-                client.options.getViewDistance().setValue(6);
-                b.setMessage(Text.literal("Дальность: 6"));
-            }).dimensions(this.width / 2 - 100, startY + 30, 200, 20).build());
-
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Графика: Быстрая"), b -> {
-                client.options.getGraphicsMode().setValue(net.minecraft.client.option.GraphicsMode.FAST);
-                b.setMessage(Text.literal("Графика: Быстрая"));
-            }).dimensions(this.width / 2 - 100, startY + 60, 200, 20).build());
-            
-        } else {
-            // Вкладка Оптимизация
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Частицы: Минимум"), b -> {
-                client.options.getParticles().setValue(ParticlesMode.MINIMAL);
-                b.setMessage(Text.literal("Частицы: Мин"));
-            }).dimensions(this.width / 2 - 100, startY, 200, 20).build());
-
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Облака: Выкл"), b -> {
-                client.options.getCloudRenderMode().setValue(net.minecraft.client.option.CloudRenderMode.OFF);
-                b.setMessage(Text.literal("Облака: Выкл"));
-            }).dimensions(this.width / 2 - 100, startY + 30, 200, 20).build());
-        }
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Макс. Оптимизация (Всё выкл)"), b -> {
+            client.options.getViewDistance().setValue(4);
+            client.options.getParticles().setValue(ParticlesMode.MINIMAL);
+            client.options.getGraphicsMode().setValue(net.minecraft.client.option.GraphicsMode.FAST);
+            client.options.getCloudRenderMode().setValue(net.minecraft.client.option.CloudRenderMode.OFF);
+            client.options.write();
+            b.setMessage(Text.literal("Макс. Оптимизация ВКЛ"));
+        }).dimensions(this.width / 2 - 100, startY + 30, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Закрыть"), b -> this.close())
-            .dimensions(this.width / 2 - 100, startY + 120, 200, 20).build());
+            .dimensions(this.width / 2 - 100, startY + 80, 200, 20).build());
     }
 
     @Override

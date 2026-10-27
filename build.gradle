@@ -1,17 +1,13 @@
 plugins {
     id 'fabric-loom' version '1.9-SNAPSHOT'
-    id 'maven-publish'
 }
 
 version = "1.0.0"
 group = "com.example.optimizer"
 
-base {
-    archivesName = "optimizer"
-}
+base { archivesName = "optimizer" }
 
-repositories {
-}
+repositories {}
 
 dependencies {
     minecraft "com.mojang:minecraft:1.21.4"
@@ -20,9 +16,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
 }
 
-processResources {
-    inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+loom {
+    mixin {
+        defaultRefmapName = "optimizer.refmap.json"
     }
 }
