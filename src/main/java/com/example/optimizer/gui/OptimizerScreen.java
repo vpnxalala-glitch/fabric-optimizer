@@ -18,15 +18,13 @@ public class OptimizerScreen extends Screen {
         this.clearChildren();
         int startY = this.height / 2 - 20;
 
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Включить ВСЁ (Макс. FPS)"), b -> {
-            client.options.getViewDistance().setValue(2);
-            client.options.getSimulationDistance().setValue(2);
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Включить ВСЁ (Кроме чанков)"), b -> {
             client.options.getParticles().setValue(ParticlesMode.MINIMAL);
             client.options.getGraphicsMode().setValue(net.minecraft.client.option.GraphicsMode.FAST);
             client.options.getCloudRenderMode().setValue(net.minecraft.client.option.CloudRenderMode.OFF);
             client.options.write();
-            b.setMessage(Text.literal("Всё включено!"));
-        }).dimensions(this.width / 2 - 100, startY, 200, 20).build());
+            b.setMessage(Text.literal("Включено!"));
+        }).dimensions(this.width / 2 - 120, startY, 240, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Закрыть"), b -> this.close())
             .dimensions(this.width / 2 - 100, startY + 50, 200, 20).build());
