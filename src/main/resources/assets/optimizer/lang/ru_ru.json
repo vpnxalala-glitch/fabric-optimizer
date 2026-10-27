@@ -1,4 +1,6 @@
 {
   "key.optimizer.menu": "Открыть меню оптимизации",
+  "key.optimizer.fullbright": "Переключить Фуллбрайт",
+  "key.optimizer.zoom": "Приближение (Зум)",
   "category.optimizer": "Оптимизация"
 }

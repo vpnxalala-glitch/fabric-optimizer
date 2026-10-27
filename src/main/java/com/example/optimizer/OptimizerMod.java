@@ -7,24 +7,46 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import com.example.optimizer.gui.OptimizerScreen;
+import com.example.optimizer.config.OptimizerConfig;
+import com.example.optimizer.features.FullbrightFeature;
+import com.example.optimizer.features.ZoomFeature;
 
 public class OptimizerMod implements ClientModInitializer {
     public static KeyBinding menuKey;
+    public static KeyBinding fullbrightKey;
+    public static KeyBinding zoomKey;
+    public static OptimizerConfig config;
 
     @Override
     public void onInitializeClient() {
+        config = OptimizerConfig.load();
+        FullbrightFeature.init();
+
         menuKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "key.optimizer.menu",
-            InputUtil.Type.KEYSYM,
-            GLFW.GLFW_KEY_RIGHT_SHIFT,
-            "category.optimizer"
+            "key.optimizer.menu", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, "category.optimizer"
+        ));
+        
+        fullbrightKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.optimizer.fullbright", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.optimizer"
+        ));
+
+        zoomKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key.optimizer.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "category.optimizer"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (menuKey.wasPressed()) {
-                if (client.player != null) {
-                    client.setScreen(new OptimizerScreen());
-                }
+                if (client.player != null) client.setScreen(new OptimizerScreen());
+            }
+            while (fullbrightKey.wasPressed()) {
+                FullbrightFeature.toggle();
+            }
+            
+            // Логика зума (зажал - приблизил, отпустил - вернул)
+            if (zoomKey.isPressed()) {
+                ZoomFeature.setZoom(true);
+            } else {
+                ZoomFeature.setZoom(false);
             }
         });
     }
