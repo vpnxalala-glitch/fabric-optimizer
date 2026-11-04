@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "autotower",
+  "version": "${version}",
+  "name": "Auto Tower",
+  "description": "Client-side assisted tower building for Fabric.",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.vich.autotower.AutoTowerClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}
